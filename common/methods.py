@@ -7,6 +7,7 @@
 import requests
 import webbrowser
 import urllib.parse
+from . import process
 
 # # 颜色兼容Win 10
 from colorama import init,Fore
@@ -41,6 +42,22 @@ def count_base(question,choices):
     content = req.text
     #print(content)
     counts = []
+
+    print("====================\r\n")
+    results=process.page(content)
+    #print (results)
+    count = 0
+    for result in results:
+        result_str=('{0}'.format(result.abstract))
+        if "当前代码版本不予摘要" in result_str:
+            continue
+        else:            
+            #print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
+            print(result_str+"\r\n")  # 此处应有格式化输出
+            count=count+1
+            if(count == 5):      #这里限制了只显示2条结果，可以自己设置
+                break
+    print("====================\r\n")
     print('Question: '+question)
     if '不是' in question:
         print('**请注意此题为否定题,选计数最少的**')

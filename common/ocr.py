@@ -3,6 +3,12 @@
 # @Author  : Skye
 # @Time    : 2018/1/9 19:34
 # @desc    :
+from aip import AipOcr
+APP_ID = '10688344'
+API_KEY = 'H0xBDS3ysLBg4KUfjoDATGIr'
+SECRET_KEY = 'Zn5MSqP4vjz9F9MgGmU4Kr1qVnplYNed'
+client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
+
 
 from PIL import Image
 import pytesseract
@@ -41,21 +47,24 @@ def depoint(img):   #input: gray image
     return img
 
 def ocr_img(image):
-
+    question=""
     # 切割题目和选项位置，左上角坐标和右下角坐标,自行测试分辨率
-    question_im = image.crop((50, 350, 1000, 560)) # 坚果 pro1
-    choices_im = image.crop((75, 535, 990, 1150))
+    #question_im = image.crop((50, 350, 1000, 560)) # 坚果 pro1
+    choices_im = image.crop((75, 350, 990, 1200))
     # question = image.crop((75, 315, 1167, 789)) # iPhone 7P
-
+    #question_im  = img.crop((50, 580, 1000, 840)) # Z11 wangzhe
+    #choices_im = img.crop((192, 887, 890, 1730))
+    #question_im  = img.crop((50, 350, 1000, 560)) # Z11 miniS xigua
+    #choices_im = img.crop((75, 560, 990, 1200))
     # 边缘增强滤波,不一定适用
     #question_im = question_im.filter(ImageFilter.EDGE_ENHANCE)
     #choices_im = choices_im.filter(ImageFilter.EDGE_ENHANCE)
 
     # 转化为灰度图
-    question_im = question_im.convert('L')
+    #question_im = question_im.convert('L')
     choices_im = choices_im.convert('L')
     # 把图片变成二值图像
-    question_im = binarizing(question_im, 190)
+    #question_im = binarizing(question_im, 190)
     choices_im = binarizing(choices_im, 190)
     #img=depoint(choices_im)
     #img.show()
@@ -73,17 +82,26 @@ def ocr_img(image):
     #tessdata_dir_config = '--tessdata-dir "/usr/local/Cellar/tesseract/3.05.01/share/tessdata/" --psm 6'
     
     # lang 指定中文简体
-    question = pytesseract.image_to_string(question_im, lang='chi_sim', config=tessdata_dir_config)
-    question = question.replace("\n", "")[2:]
+    #question = pytesseract.image_to_string(question_im, lang='chi_sim', config=tessdata_dir_config)
+    #question = question.replace("\n", "")[2:]
     # 处理将"一"识别为"_"的问题
-    question = question.replace("_", "一")
+    #question = question.replace("_", "一")
 
 
     choice = pytesseract.image_to_string(choices_im, lang='chi_sim', config=tessdata_dir_config)
+
     # 处理将"一"识别为"_"的问题
     choices = choice.strip().replace("_", "一").split("\n")
     choices = [ x for x in choices if x != '' ]
+    question += choices[0]
+    choices.pop(0)
+    tissue = question[1:2]
+    if str.isdigit(tissue):            #去掉题目索引
+        question = question[3:]   
+    else:
+        question = question[2:]
 
+    #print(choices)
     # 兼容截图设置不对，意外出现问题为两行或三行
     if (choices[0].endswith('?')):
         question += choices[0]
@@ -92,7 +110,7 @@ def ocr_img(image):
         question += choices[0]
         question += choices[1]
         choices.pop(0)
-        choices.pop(1)
+        choices.pop(0)
 
     return question, choices
 

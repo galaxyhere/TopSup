@@ -2,6 +2,9 @@ tessdata
 .idea
 test.py
 ./screenshot.png
+*.exe
+*.dll
+screenshot_backups/
 *.py[cod]
 common/__pycache__
 GetQuestionApi.py

@@ -6,19 +6,24 @@
 
 
 from PIL import Image
-from common import screenshot, ocr, methods
+from common import screenshot, ocr, methods, debug
 from threading import Thread
 import time
 
+# DEBUG 开关，需要调试的时候请改为 True，不需要调试的时候为 False
+DEBUG_SWITCH = True
+
 while True:
+    t = time.clock()
     # 截图
-    screenshot.check_screenshot()
+    
+    #screenshot.check_screenshot()
 
     img = Image.open("./screenshot.png")
 
     # 文字识别
     question, choices = ocr.ocr_img(img)
-    # t = time.clock()
+ 
     # 用不同方法输出结果，取消某个方法在前面加上#
 
     # # 打开浏览器方法搜索问题
@@ -29,15 +34,18 @@ while True:
     # methods.run_algorithm(2, question, choices)
 
     # 多线程
-    m1 = Thread(methods.run_algorithm(0, question, choices))
-    m2 = Thread(methods.run_algorithm(1, question, choices))
+    #m1 = Thread(methods.run_algorithm(0, question, choices))
+    #m2 = Thread(methods.run_algorithm(1, question, choices))
     m3 = Thread(methods.run_algorithm(2, question, choices))
-    m1.start()
-    m2.start()
+    #m1.start()
+    #m2.start()
     m3.start()
 
-    # end_time = time.clock()
-    # print(end_time - t)
+    end_time = time.clock()
+    print(end_time - t)
+    if DEBUG_SWITCH:
+        ts=time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+        debug.backup_screenshot(ts)
     go = input('输入回车继续运行,输入 n 回车结束运行: ')
     if go == 'n':
         break
