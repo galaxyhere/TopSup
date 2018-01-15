@@ -14,16 +14,17 @@ import time
 DEBUG_SWITCH = True
 
 while True:
+    print("=========================================")  
     t = time.clock()
     # 截图
-    
-    #screenshot.check_screenshot()
+
+    # screenshot.check_screenshot()
 
     img = Image.open("./screenshot.png")
 
     # 文字识别
     question, choices = ocr.ocr_img(img)
- 
+
     # 用不同方法输出结果，取消某个方法在前面加上#
 
     # # 打开浏览器方法搜索问题
@@ -33,21 +34,28 @@ while True:
     # # 用选项在问题页面中计数出现词频方法
     # methods.run_algorithm(2, question, choices)
 
+    if DEBUG_SWITCH:
+        print("OCR time: ",time.clock()-t)
     # 多线程
     #m1 = Thread(methods.run_algorithm(0, question, choices))
     #m2 = Thread(methods.run_algorithm(1, question, choices))
     m3 = Thread(methods.run_algorithm(2, question, choices))
-    #m1.start()
-    #m2.start()
+    # m1.start()
+    # m2.start()
     m3.start()
 
     end_time = time.clock()
     print(end_time - t)
     if DEBUG_SWITCH:
-        ts=time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+        ts = "screenshot_"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
         debug.backup_screenshot(ts)
-    go = input('输入回车继续运行,输入 n 回车结束运行: ')
+    go = input('输入回车继续运行,输入 n 回车结束运行, 输入 m 搜索答案: ')
     if go == 'n':
         break
+    elif go == 'm':
+        methods.search_choices(choices)
+        print('------------------------')
+    input('输入回车继续运行')
 
-    print('------------------------')
+
+ 
