@@ -14,11 +14,11 @@ import time
 DEBUG_SWITCH = True
 
 while True:
-    print("=========================================")  
+    print("\r\n=========================================")  
     t = time.clock()
     # 截图
 
-    # screenshot.check_screenshot()
+    #screenshot.check_screenshot()
 
     img = Image.open("./screenshot.png")
 
@@ -55,7 +55,7 @@ while True:
     elif go == 'm':
         methods.search_choices(choices)
         print('------------------------')
-    input('输入回车继续运行')
+        input('输入回车继续运行')
 
 
  

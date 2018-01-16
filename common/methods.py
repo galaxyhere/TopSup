@@ -55,11 +55,14 @@ def count_base(question, choices):
         if "当前代码版本不予摘要" in result_str:
             continue
         else:
-            # print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
-            print(result_str + "\r\n")  # 此处应有格式化输出
-            count = count + 1
-            if(count == 5):  # 这里限制了只显示2条结果，可以自己设置
-                break
+            try:
+                # print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
+                print(result_str.replace(u'\xa0', u' ') + "\r\n")  # 此处应有格式化输出
+                count = count + 1
+                if(count == 5):  # 这里限制了只显示5条结果，可以自己设置
+                    break
+            except:
+                continue
     print("====================\r\n")
     print('Question: ' + question)
     if '不是' in question:
@@ -108,7 +111,7 @@ def search_choices(choices):
         # print(content)
         #counts = []
 
-        print("====================\r\n")
+        print("=======  "+choice+"  ====================\r\n")
         results = process.page(content)
         #print (results)
         count = 0
@@ -117,11 +120,14 @@ def search_choices(choices):
             if "当前代码版本不予摘要" in result_str:
                 continue
             else:
-                # print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
-                print(result_str + "\r\n")  # 此处应有格式化输出
-                count = count + 1
-                if(count == 2):  # 这里限制了只显示2条结果，可以自己设置
-                    break
+                try:
+                    # print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
+                    print(result_str.replace(u'\xa0', u' ')  + "\r\n")  # 此处应有格式化输出
+                    count = count + 1
+                    if(count == 2):  # 这里限制了只显示2条结果，可以自己设置
+                        break
+                except:
+                    continue
 
 
 def run_algorithm(al_num, question, choices):

@@ -3,11 +3,6 @@
 # @Author  : Skye
 # @Time    : 2018/1/9 19:34
 # @desc    :
-from aip import AipOcr
-APP_ID = '10688344'
-API_KEY = 'H0xBDS3ysLBg4KUfjoDATGIr'
-SECRET_KEY = 'Zn5MSqP4vjz9F9MgGmU4Kr1qVnplYNed'
-client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
 
 
 from PIL import Image
