@@ -1,5 +1,6 @@
 tessdata
 .idea
+.vscode/
 test.py
 ./screenshot.png
 *.exe
