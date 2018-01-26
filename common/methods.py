@@ -47,22 +47,25 @@ def count_base(question, choices):
     # print(content)
 
     print("====================\r\n")
-    results = process.page(content)
-    #print (results)
-    count = 0
-    for result in results:
-        result_str = ('{0}'.format(result.abstract))
-        if "当前代码版本不予摘要" in result_str:
-            continue
-        else:
-            try:
-                # print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
-                print(result_str.replace(u'\xa0', u' ') + "\r\n")  # 此处应有格式化输出
-                count = count + 1
-                if(count == 3):  # 这里限制了只显示3条结果，可以自己设置
-                    break
-            except:
+    try:
+        results = process.page(content) 
+        #print (results)
+        count = 0
+        for result in results:
+            result_str = ('{0}'.format(result.abstract))
+            if "当前代码版本不予摘要" in result_str:
                 continue
+            else:
+                try:
+                    # print('{0} {1} {2} {3} {4}'.format(result.index, result.title, result.abstract, result.show_url, result.url))  # 此处应有格式化输出
+                    print(result_str.replace(u'\xa0', u' ') + "\r\n")  # 此处应有格式化输出
+                    count = count + 1
+                    if(count == 5):  # 这里限制了只显示5条结果，可以自己设置
+                        break
+                except:
+                    continue
+    except :
+        pass
     print("====================\r\n")
     print('Question: ' + question)
     if '不是' in question:

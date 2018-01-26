@@ -2,7 +2,7 @@ tessdata
 .idea
 .vscode/
 test.py
-./screenshot.png
+screenshot.png
 *.exe
 *.dll
 screenshot_backups/

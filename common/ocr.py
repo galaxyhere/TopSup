@@ -69,7 +69,11 @@ def ocr_img(image):
     pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
     # 语言包目录和参数
     tessdata_dir_config = '--tessdata-dir "C:\\Program Files (x86)\\Tesseract-OCR\\tessdata" --psm 6'
-
+    
+    # tesseract 路径
+    #pytesseract.pytesseract.tesseract_cmd = 'D:\\tesseract-Win64\\tesseract'
+    # 语言包目录和参数
+    #tessdata_dir_config = '--tessdata-dir "D:\\tesseract-Win64\\tessdata" --psm 6'
     # mac 环境 记得自己安装训练文件
     # tesseract 路径
     #pytesseract.pytesseract.tesseract_cmd = '/usr/local/Cellar/tesseract/3.05.01/bin/tesseract'
@@ -89,15 +93,22 @@ def ocr_img(image):
     texts = text.strip().replace("_", "一").split("\n")
     texts = [ x for x in texts if x != '' ]
     dummystr=""
-    question = dummystr.join(texts[:-3])
-    
+    for i in range(len(texts)):
+        if texts[i].endswith('?'):
+            break
+    if i < len(texts):
+        i=i+1
+    else:
+        i=-3
+    question = dummystr.join(texts[:i])
+    #question=text[0]
     tissue = question[1:2]
     if str.isdigit(tissue):            #去掉题目索引
         question = question[3:]   
     else:
         question = question[2:]
 
-    choices=texts[-3:]
+    choices=texts[i:]
     #print(choices)
     # 兼容截图设置不对，意外出现问题为两行或三行
     #if (choices[0].endswith('?')):
