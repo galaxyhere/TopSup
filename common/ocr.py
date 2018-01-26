@@ -83,29 +83,31 @@ def ocr_img(image):
     #question = question.replace("_", "一")
 
 
-    choice = pytesseract.image_to_string(choices_im, lang='chi_sim', config=tessdata_dir_config)
+    text = pytesseract.image_to_string(choices_im, lang='chi_sim', config=tessdata_dir_config)
 
     # 处理将"一"识别为"_"的问题
-    choices = choice.strip().replace("_", "一").split("\n")
-    choices = [ x for x in choices if x != '' ]
-    question += choices[0]
-    choices.pop(0)
+    texts = text.strip().replace("_", "一").split("\n")
+    texts = [ x for x in texts if x != '' ]
+    dummystr=""
+    question = dummystr.join(texts[:-3])
+    
     tissue = question[1:2]
     if str.isdigit(tissue):            #去掉题目索引
         question = question[3:]   
     else:
         question = question[2:]
 
+    choices=texts[-3:]
     #print(choices)
     # 兼容截图设置不对，意外出现问题为两行或三行
-    if (choices[0].endswith('?')):
-        question += choices[0]
-        choices.pop(0)
-    if (choices[1].endswith('?')):
-        question += choices[0]
-        question += choices[1]
-        choices.pop(0)
-        choices.pop(0)
+    #if (choices[0].endswith('?')):
+    #    question += choices[0]
+    #    choices.pop(0)
+    #if (choices[1].endswith('?')):
+    #    question += choices[0]
+    #    question += choices[1]
+    #    choices.pop(0)
+    #    choices.pop(0)
 
     return question, choices
 

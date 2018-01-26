@@ -14,7 +14,7 @@ import time
 DEBUG_SWITCH = True
 
 while True:
-    print("\r\n=========================================")  
+    print("\r\n=========================================")
     t = time.clock()
     # 截图
 
@@ -35,19 +35,20 @@ while True:
     # methods.run_algorithm(2, question, choices)
 
     if DEBUG_SWITCH:
-        print("OCR time: ",time.clock()-t)
+        print("OCR time: ", time.clock() - t)
     # 多线程
+
     #m1 = Thread(methods.run_algorithm(0, question, choices))
     #m2 = Thread(methods.run_algorithm(1, question, choices))
     m3 = Thread(methods.run_algorithm(2, question, choices))
     # m1.start()
     # m2.start()
     m3.start()
-
     end_time = time.clock()
-    print(end_time - t)
+    print("用时：", end_time - t)
     if DEBUG_SWITCH:
-        ts = "screenshot_"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+        ts = "screenshot_" + \
+            time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
         debug.backup_screenshot(ts)
     go = input('输入回车继续运行,输入 n 回车结束运行, 输入 m 搜索答案: ')
     if go == 'n':
@@ -56,6 +57,3 @@ while True:
         methods.search_choices(choices)
         print('------------------------')
         input('输入回车继续运行')
-
-
- 
